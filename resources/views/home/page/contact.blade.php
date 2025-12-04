@@ -120,13 +120,6 @@
                                 @enderror
                             </div>
 
-                            {{-- kotak ceklis untuk recaptcha --}}
-                            <div class="g-recaptcha mt-4" data-sitekey="{{ config('services.recaptcha.key') }}">
-                            </div>
-                            @error('g-recaptcha-response')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
-
                             <button type="submit" class="btn btn-primary w-100 py-2 mt-3">Kirim Pesan</button>
                         </form>
                     </div>
