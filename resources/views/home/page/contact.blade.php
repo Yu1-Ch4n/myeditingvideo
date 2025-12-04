@@ -152,6 +152,5 @@
             .bindPopup('Our Office')
             .openPopup();
     </script>
-    {{-- Script reCAPTCHA --}}
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
 @endpush
