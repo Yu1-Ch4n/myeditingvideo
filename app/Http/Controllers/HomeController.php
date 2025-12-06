@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Models\Contact; // Import Model Contact
 use App\Models\User; // Import Model User
 use Illuminate\Support\Facades\Session; // Import Session facade
-use Illuminate\Support\Facades\Http; // Tambahkan ini untuk memanggil API reCAPTCHA
 use Illuminate\Validation\ValidationException; // Tambahkan ini untuk menangani exception validasi
 
 
@@ -166,28 +165,8 @@ class HomeController extends Controller
                 'email' => 'required|email|max:255',
                 'subject' => 'required|string|max:255',
                 'message' => 'required|string',
-                // Aturan validasi untuk reCAPTCHA,
-                'g-recaptcha-response' => 'required',
             ],
-            [
-                'g-recaptcha-response.required' => 'Silakan verifikasi bahwa Anda bukan robot.',
-            ]
         );
-
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret'),
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $request->ip(),
-        ]);
-
-        $body = json_decode((string)$response->body());
-
-        if (!isset($body->success) || !$body->success) {
-            // Jika verifikasi reCAPTCHA gagal
-            throw ValidationException::withMessages([
-                'g-recaptcha-response' => 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.',
-            ]);
-        }
 
         try {
             // Simpan data ke database menggunakan model Contact
